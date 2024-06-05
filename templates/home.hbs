@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../templates/styles.css">
+  <title>Home</title>
+  <!-- Linking Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Linking Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .box {
+    margin-top: 10%;
+    margin-bottom: 5px;
+    color: green;
+    padding: 25px; 
+    text-align: center;
+    border: 2px solid green;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  }
+
+  .box:hover {
+    cursor: pointer;
+    background-color: rgb(65, 97, 241);
+    border-color: rgb(65, 97, 241);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100%;
+    transition: left 0.3s ease;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  .drawer.open {
+    left: 0;
+  }
+
+  .drawer.close {
+    left: -220px;
+  }
+
+  .menu-item {
+    margin-top: 10%;
+    margin-bottom: 5px;
+    color: green;
+    padding: 10px; 
+    text-align: center; 
+    border: 2px solid green; 
+    border-radius: 5px; 
+    transition: all 0.3s ease;
+  }
+
+  .menu-item:hover {
+    cursor: pointer;
+    background-color: rgb(65, 97, 241);
+    border-color: rgb(65, 97, 241);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .menu-item-home {
+    margin-top: 25%;
+    margin-bottom: 10px;
+    color: green;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid green;
+    border-radius: 5px;
+    transition: all 0.3s ease; 
+  }
+
+  .menu-item-home:hover {
+    cursor: pointer;
+    background-color: rgb(65, 97, 241);
+    border-color: rgb(65, 97, 241);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .menu-item-button {
+    margin-top: 110%;
+    color: green;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid green;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .menu-item-button:hover {
+    cursor: pointer;
+    background-color: rgb(65, 97, 241);
+    border-color: rgb(65, 97, 241);
+    color: white;
+    transform: scale(1.1);
+  }
+
+  .container-fluid {
+    flex: 1;
+    padding-top: 20px;
+    transition: all 0.3s ease; 
+    width: calc(100% - 220px);
+  }
+
+  .row {
+    margin-bottom: 20px;
+  }
+
+  #toggleMenu {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+
+  @media (max-width: 767px) {
+    .drawer {
+      width: 100%;
+      height: 100vh;
+      left: -100%;
+      position: fixed;
+    }
+
+    .drawer.open {
+      left: 0;
+    }
+
+    .container-fluid {
+      padding-top: 20px;
+      margin-left: 0;
+      transition: margin-left 0.3s ease;
+    }
+  }
+
+  h2 {
+    text-align: center;
+    margin-top: 2%;
+  }
+
+  .footer {
+    width: 100%;
+    position: relative;
+    margin-top: auto;
+  }
+
+  .footer-box {
+    background-color: #333;
+    color: white;
+    padding: 25px; 
+    text-align: center;
+    border: none;
+  }
+</style>
+</head>
+<body>
+  <!-- Menu Button -->
+  <button id="toggleMenu" type="button" class="btn btn-primary">
+    <i class="fas fa-bars"></i> Menu
+  </button>
+
+  <!-- Drawer Menu -->
+  <div id="drawer" class="drawer close">
+    <div class="menu-item-home" onclick="navigateTo('/home')"><i class="fas fa-home"></i> Home</div>
+    <div class="menu-item" onclick="navigateTo('/grequest')"><i class="fas fa-laptop"></i> Goods Request </div>
+    <div class="menu-item" onclick="navigateTo('/srequest')"><i class="fas fa-wrench"></i> Service Request </div>
+    <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
+    <div class="menu-item" onclick="navigateTo('/reqHistory')"><i class="fas fa-history"></i> Request History</div>
+    <br>
+    <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <h2>Welcome To ASL Procurement</h2>
+  <div class="container-fluid" id="mainContent">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <h2 onclick="navigateTo('/grequest')">Goods Request <i class="fas fa-laptop"></i></h2>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <h2 onclick="navigateTo('/srequest')">Service Request <i class="fas fa-wrench"></i></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <h2 onclick="navigateTo('/approvals')">Approvals <i class="fas fa-check"></i></h2>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <h2 onclick="navigateTo('/reqHistory')">Request History <i class="fas fa-history"></i></h2>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="box">
+          <h2>Inventory <i class="fas fa-warehouse "></i></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-box">
+      Hello!, {{loggedInUser.name}}
+    </div>
+  </div>
+
+  <!-- Linking Font Awesome and jQuery -->
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      // Toggle drawer menu on button click
+      $('#toggleMenu').click(function(){
+        $('#drawer').toggleClass('open').toggleClass('close');
+        $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+      });
+
+      // Function to toggle drawer based on window size
+      function toggleDrawerOnResize() {
+        if ($(window).width() < 768) {
+          $('#drawer').removeClass('open').addClass('close');
+          $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
+        } else {
+          $('#drawer').removeClass('close').addClass('open');
+        }
+      }
+
+      // Initial check
+      toggleDrawerOnResize();
+
+      // Check on window resize
+      $(window).resize(function(){
+        toggleDrawerOnResize();
+      });
+    });
+
+    function navigateTo(url) {
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>

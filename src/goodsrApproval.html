@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Goods Requests</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <h2>Goods Requests</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th>Date</th>
+                <th>Officer Name</th>
+                <th>Items to Procure</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each requests}}
+            <tr>
+                <td>{{this.deptName}}</td>
+                <td>{{this.date}}</td>
+                <td>{{this.officerName}}</td>
+                <td>{{this.itemsToProcure.join(', ')}}</td>
+                <td>{{this.quantity}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</body>
+</html>

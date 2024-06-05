@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Requests</title>
+    <!-- Linking Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        .item-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .item-button:hover {
+            background-color: #45a049;
+        }
+
+        .modal-footer .item-button + .item-button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Goods Requests</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th>Date</th>
+                <th>Officer Name</th>
+                <th>Items to Procure</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each requests}}
+            <tr class="clickable-row">
+                <td>{{this.deptName}}</td>
+                <td>{{this.date}}</td>
+                <td>{{this.officerName}}</td>
+                <td>
+                    <ul>
+                        {{#each this.itemsToProcure}}
+                        <li>{{this.item}} (Quantity: {{this.quantity}})</li>
+                        {{/each}}
+                    </ul>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approvalModalLabel">Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Approve Request?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="item-button" data-dismiss="modal">Close</button>
+                    <button type="button" class="item-button" id="acceptBtn">Accept</button>
+                    <button type="button" class="item-button" id="rejectBtn">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linking Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Get all rows with class 'clickable-row'
+            const rows = document.querySelectorAll('.clickable-row');
+
+            // Function to handle row click
+            function handleRowClick() {
+                // Show the modal
+                $('#approvalModal').modal('show');
+
+                // Store the clicked row
+                const clickedRow = this;
+
+                // Add click event listeners to buttons
+                $('#acceptBtn').off('click').on('click', function() {
+                    // Accept request
+                    // You can add your logic here for accepting the request
+                    console.log('Request accepted:', clickedRow);
+
+                    // Close the modal
+                    $('#approvalModal').modal('hide');
+                });
+
+                $('#rejectBtn').off('click').on('click', function() {
+                    // Reject request
+                    // You can add your logic here for rejecting the request
+                    console.log('Request rejected:', clickedRow);
+
+                    // Close the modal
+                    $('#approvalModal').modal('hide');
+                });
+            }
+
+            // Loop through each row and add click event listener
+            rows.forEach(row => {
+                row.addEventListener('click', handleRowClick);
+            });
+        });
+    </script>
+</body>
+</html>

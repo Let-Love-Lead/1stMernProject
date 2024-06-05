@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request</title>
+  <!-- Linking Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Linking Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h2 {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button[type="submit"], button[type="button"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    button[type="submit"]:hover, button[type="button"]:hover {
+      background-color: #45a049;
+    }
+
+    h6 {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Service Request</h2>
+  <h6>All fields are required</h6>
+  <form method="POST" action="">
+    <label for="deptName">Name of Dept/Agency/Branch Requesting:</label>
+    <input type="text" id="deptName" name="deptName" placeholder="Name of Dept/Agency/Branch Requesting" required readonly>
+
+    <label for="date">Date:</label>
+    <input type="datetime-local" id="date" name="date" required readonly>
+
+    <label for="officerName">Name of Officer:</label>
+    <input type="text" id="officerName" name="officerName" placeholder="Name of Officer" required readonly>
+
+    <label for="itemsToProcure">Items to Procure:</label>
+    <div id="itemsContainer">
+      <input type="text" id="itemsToProcure" name="itemsToProcure[]" placeholder="List items here" required>
+    </div>
+    
+    <button type="button" id="addItem">Add More Items</button>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Auto-populate current date and time
+    document.getElementById('date').value = new Date().toISOString().slice(0, 16);
+
+    // Add more items function
+    document.getElementById('addItem').addEventListener('click', function() {
+      var container = document.getElementById('itemsContainer');
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'itemsToProcure[]';
+      input.placeholder = 'List items here';
+      input.required = true;
+      input.style.marginTop = '10px';
+      container.appendChild(input);
+    });
+  </script>
+</body>
+</html>

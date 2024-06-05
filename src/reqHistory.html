@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goods Requests</title>
+    <!-- Linking Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 10%;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        .item-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .item-button:hover {
+            background-color: #45a049;
+        }
+
+        .modal-footer .item-button + .item-button {
+            margin-left: 10px;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            height: 100%;
+            transition: left 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .drawer.open {
+            left: 0;
+        }
+
+        .drawer.close {
+            left: -220px;
+        }
+
+        .menu-item {
+            margin-top: 10%;
+            margin-bottom: 5px;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-item-home {
+            margin-top: 25%;
+            margin-bottom: 10px;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item-home:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-item-button {
+            margin-top: 140%;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item-button:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .container-fluid {
+            flex: 1;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+            width: calc(100% - 220px);
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+
+        #toggleMenu {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1100;
+        }
+
+        @media (max-width: 767px) {
+            .drawer {
+                width: 100%;
+                height: 100vh;
+                left: -100%;
+                position: fixed;
+            }
+
+            .drawer.open {
+                left: 0;
+            }
+
+            .container-fluid {
+                padding-top: 20px;
+                margin-left: 0;
+                transition: margin-left 0.3s ease;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <button id="toggleMenu" type="button" class="btn btn-primary">
+        <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Drawer Menu -->
+    <div id="drawer" class="drawer close">
+        <div class="menu-item-home" onclick="navigateTo('/home')"><i class="fas fa-home"></i> Home</div>
+        <div class="menu-item" onclick="navigateTo('/grequest')"><i class="fas fa-laptop"></i> Goods Request </div>
+        <div class="menu-item" onclick="navigateTo('/srequest')"><i class="fas fa-wrench"></i> Service Request </div>
+        <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
+        <br>
+        <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout</div>
+    </div>
+
+    <h2>Request History</h2>
+    <form id="historyForm">
+        <table>
+            <thead>
+                <tr>
+                    <th>Request</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each requests}}
+                <tr>
+                    <td>{{this.requestType}}</td>
+                    <td>{{this.deptName}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.status}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </form>
+</body>
+</html>
