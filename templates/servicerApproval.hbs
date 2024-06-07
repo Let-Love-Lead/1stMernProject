@@ -242,27 +242,24 @@
     </button>
 
     <!-- Drawer Menu -->
-  <div id="drawer" class="drawer close">
-    <div class="menu-item-home" onclick="navigateTo('/home')"><i class="fas fa-home"></i> Home</div>
-    <div class="menu-item" onclick="navigateTo('/grequest')"><i class="fas fa-laptop"></i> Goods Request </div>
-    <div class="menu-item" onclick="navigateTo('/srequest')"><i class="fas fa-wrench"></i> Service Request </div>
-    <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
-    <div class="menu-item" onclick="navigateTo('/reqHistory')"><i class="fas fa-history"></i> Request History</div>
-    <br>
-    <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout
+    <div id="drawer" class="drawer close">
+        <div class="menu-item-home" onclick="navigateTo('/home')"><i class="fas fa-home"></i> Home</div>
+        <div class="menu-item" onclick="navigateTo('/grequest')"><i class="fas fa-laptop"></i> Goods Request </div>
+        <div class="menu-item" onclick="navigateTo('/srequest')"><i class="fas fa-wrench"></i> Service Request </div>
+        <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
+        <div class="menu-item" onclick="navigateTo('/reqHistory')"><i class="fas fa-history"></i> Request History</div>
+        <br>
+        <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout</div>
     </div>
-  </div>
 
- <h2>Service Requests</h2>
+    <h2>Service Requests</h2>
     <form id="approvalForm" method="POST" action="/submitApproval">
         <table>
             <thead>
                 <tr>
                     <th></th>
                     <th>Department Name</th>
-                    <th>Date</th>
                     <th>Officer Name</th>
-                    <th>Items to Procure</th>
                 </tr>
             </thead>
             <tbody>
@@ -275,9 +272,9 @@
                         </label>
                     </td>
                     <td>{{this.deptName}}</td>
-                    <td>{{this.date}}</td>
                     <td>{{this.officerName}}</td>
-                    <td>
+                    <td class="d-none date">{{this.date}}</td>
+                    <td class="d-none itemsToProcure">
                         <ul>
                             {{this.itemsToProcure}}
                         </ul>
@@ -300,7 +297,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Approve Request?</p>
+                    <p><strong>Department Name:</strong> <span id="modalDeptName"></span></p>
+                    <p><strong>Officer Name:</strong> <span id="modalOfficerName"></span></p>
+                    <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                    <p><strong>Items to Procure:</strong></p>
+                    <ul id="modalItemsToProcure"></ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="item-button" data-dismiss="modal">Close</button>
@@ -352,6 +353,19 @@
                 // Prevent checkbox from being checked
                 event.preventDefault();
 
+                // Get the row of the clicked checkbox
+                const row = clickedCheckbox.closest('tr');
+                const deptName = row.children[1].innerText;
+                const officerName = row.children[2].innerText;
+                const date = row.querySelector('.date').innerText;
+                const itemsToProcure = row.querySelector('.itemsToProcure').innerHTML;
+
+                // Fill modal with data
+                $('#modalDeptName').text(deptName);
+                $('#modalOfficerName').text(officerName);
+                $('#modalDate').text(date);
+                $('#modalItemsToProcure').html(itemsToProcure);
+
                 // Show the modal
                 $('#approvalModal').modal('show');
 
@@ -389,12 +403,14 @@
                 checkboxes.forEach((checkbox, index) => {
                     const row = checkbox.closest('tr');
                     const deptName = row.children[1].innerText;
-                    const date = row.children[2].innerText;
+                    const officerName = row.children[2].innerText;
+                    const date = row.querySelector('.date').innerText;
                     const status = checkbox.checked ? 'approved' : 'rejected';
 
                     if (checkbox.checked || $(checkbox).next('label').hasClass('wrong')) {
                         approvals.push({
                             deptName,
+                            officerName,
                             date,
                             status,
                             requestType: 'Service Request'
