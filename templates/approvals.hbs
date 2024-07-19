@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
-  <title>Home</title>
+  <title>Approval</title>
   <!-- Linking Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Linking Font Awesome for icons -->
@@ -45,22 +45,26 @@
   color: white;
   transform: scale(1.1);
 }
-.drawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 220px;
-  height: 100%;
-  transition: left 0.3s ease;
-  padding: 20px;
-  z-index: 1000;
-}
-.drawer.open {
-  left: 0;
-}
-.drawer.close {
-  left: -220px;
-}
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      transition: left 0.3s ease;
+      padding: 20px;
+      z-index: 1000;
+      background-color:rgb(39,67,120);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .drawer.open {
+      left: 0;
+    }
+
+    .drawer.close {
+      left: -220px;
+    }
 
 .menu-item {
   margin-top: 10%;
@@ -97,7 +101,7 @@
   transform: scale(1.1);
 }
 .menu-item-button {
-    margin-top: 140%;
+    margin-top: 120%;
     color: green;
     padding: 10px;
     text-align: center;
@@ -112,12 +116,12 @@
     color: white;
     transform: scale(1.1);
   }
-  .container-fluid {
-    flex: 1;
-    padding-top: 20px;
-    transition: all 0.3s ease; 
-    width: calc(100% - 220px);
-  }
+    .container-fluid {
+      flex: 1;
+      padding-top: 20px;
+      transition: all 0.3s ease;
+      margin-left: 220px;
+    }
     .row {
       margin-bottom: 20px;
     }
@@ -178,7 +182,7 @@
   </div>
 
   <!-- Main Content -->
-  <h2>Welcome To ASL Procurement</h2>
+  {{!-- <h2>Approval</h2> --}}
   <div class="container-fluid" id="mainContent">
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
@@ -195,7 +199,7 @@
       <div class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
         <div class="box">
-          <h2>Users Approval <i class="fas fa-user"></i></h2>
+          <h2 onclick="navigateTo('/userstable')">Users Approval <i class="fas fa-user"></i></h2>
         </div>
       </div>
     </div>
@@ -205,11 +209,15 @@
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-    $(document).ready(function(){
+  $(document).ready(function(){
       // Toggle drawer menu on button click
       $('#toggleMenu').click(function(){
         $('#drawer').toggleClass('open').toggleClass('close');
-        $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        if ($(window).width() < 768) {
+          $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        } else {
+          $('#mainContent').css('margin-left', $('#drawer').hasClass('open') ? '220px' : '0');
+        }
       });
 
       // Function to toggle drawer based on window size
@@ -219,6 +227,7 @@
           $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
         } else {
           $('#drawer').removeClass('close').addClass('open');
+          $('#mainContent').css('margin-left', '220px');
         }
       }
 

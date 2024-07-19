@@ -84,24 +84,25 @@
     .form-button:hover {
       background-color: #45a049;
     }
-.drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 220px;
-    height: 100%;
-    transition: left 0.3s ease;
-    padding: 20px;
-    z-index: 1000;
-  }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      padding: 20px;
+      z-index: 1000;
+      background-color:rgb(39,67,120);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-  .drawer.open {
-    left: 0;
-  }
+    .drawer.open {
+      left: 0;
+    }
 
-  .drawer.close {
-    left: -220px;
-  }
+    .drawer.close {
+      left: -220px;
+    }
 
   .menu-item {
     margin-top: 10%;
@@ -110,8 +111,7 @@
     padding: 10px; 
     text-align: center; 
     border: 2px solid green; 
-    border-radius: 5px; 
-    transition: all 0.3s ease;
+    border-radius: 5px;
   }
 
   .menu-item:hover {
@@ -130,7 +130,6 @@
     text-align: center;
     border: 2px solid green;
     border-radius: 5px;
-    transition: all 0.3s ease; 
   }
 
   .menu-item-home:hover {
@@ -142,13 +141,12 @@
   }
 
   .menu-item-button {
-    margin-top: 140%;
+    margin-top: 12 0%;
     color: green;
     padding: 10px;
     text-align: center;
     border: 2px solid green;
     border-radius: 5px;
-    transition: all 0.3s ease;
   }
 
   .menu-item-button:hover {
@@ -159,12 +157,11 @@
     transform: scale(1.1);
   }
 
-  .container-fluid {
-    flex: 1;
-    padding-top: 20px;
-    transition: all 0.3s ease; 
-    width: calc(100% - 220px);
-  }
+    .container-fluid {
+      flex: 1;
+      padding-top: 20px;
+      margin-left: 220px;
+    }
 
   .row {
     margin-bottom: 20px;
@@ -189,11 +186,10 @@
       left: 0;
     }
 
-    .container-fluid {
-      padding-top: 20px;
-      margin-left: 0;
-      transition: margin-left 0.3s ease;
-    }
+      .container-fluid {
+        padding-top: 20px;
+        margin-left: 0;
+      }
   }
 
   h2 {
@@ -283,11 +279,15 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script>
-        $(document).ready(function(){
+  $(document).ready(function(){
       // Toggle drawer menu on button click
       $('#toggleMenu').click(function(){
         $('#drawer').toggleClass('open').toggleClass('close');
-        $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        if ($(window).width() < 768) {
+          $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        } else {
+          $('#mainContent').css('margin-left', $('#drawer').hasClass('open') ? '220px' : '0');
+        }
       });
 
       // Function to toggle drawer based on window size
@@ -297,6 +297,7 @@
           $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
         } else {
           $('#drawer').removeClass('close').addClass('open');
+          $('#mainContent').css('margin-left', '220px');
         }
       }
 

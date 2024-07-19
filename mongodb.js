@@ -9,22 +9,12 @@ mongoose.connect('mongodb://localhost:27017/ProcurementForAsl', { useNewUrlParse
   });
 
 const LoginSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  password: {
-    type: String,
-    required: true
-  },
-  department: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  }
+    name: { type: String, required: true },
+    password: { type: String, required: true },
+    department: { type: String, required: true },
+    email: { type: String, required: true },
+    role: { type: String, default: 'None' },
+    status: { type: String, default: 'None' }
 }, { collection: 'userscollection' });
 
 const GoodRequestSchema = new mongoose.Schema({
@@ -76,6 +66,10 @@ const ApprovalSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    officerName:{
+      type: String,
+      required: true
+    },
     date: {
         type: Date,
         required: true
@@ -87,8 +81,12 @@ const ApprovalSchema = new mongoose.Schema({
     requestType: {
         type: String,
         required: true
+    },
+    itemsToProcure:{
+      type: String,
+      required: false
     }
-}, { collection: 'approvals' });
+}, { collection: 'approvalscollection' });
 
 const UserCollection = mongoose.model("userscollection", LoginSchema);
 const GoodsRequestCollection = mongoose.model("goodsrequests", GoodRequestSchema);

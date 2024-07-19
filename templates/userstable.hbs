@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Approval</title>
+    <!-- Linking Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 10%;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        .item-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .item-button:hover {
+            background-color: #45a049;
+        }
+
+        .modal-footer .item-button + .item-button {
+            margin-left: 10px;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            transition: left 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+            background-color: rgb(39, 67, 120);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .drawer.open {
+            left: 0;
+        }
+
+        .drawer.close {
+            left: -220px;
+        }
+
+        .menu-item {
+            margin-top: 10%;
+            margin-bottom: 5px;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-item-home {
+            margin-top: 25%;
+            margin-bottom: 10px;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item-home:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-item-button {
+            margin-top: 130%;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item-button:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .container-fluid {
+            flex: 1;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+            margin-left: 220px;
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+
+        #toggleMenu {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1100;
+        }
+
+        @media (max-width: 767px) {
+            .drawer {
+                width: 100%;
+                height: 100vh;
+                left: -100%;
+                position: fixed;
+            }
+
+            .drawer.open {
+                left: 0;
+            }
+
+            .container-fluid {
+                padding-top: 20px;
+                margin-left: 0;
+                transition: margin-left 0.3s ease;
+            }
+        }
+
+        .footer {
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer-box {
+            background-color: #333;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border: none;
+        }
+
+        .approval-checkbox {
+            display: none;
+        }
+
+        .approval-label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .approval-label.correct {
+            color: green;
+        }
+
+        .approval-label.wrong {
+            color: red;
+        }
+
+        #table-button {
+            text-align: center;
+            border: 2px solid #45a049;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            color: #45a049;
+            background-color: white;
+            padding: 5px;
+            margin-left: 10%;
+            margin-top: 2%;
+        }
+
+        #table-button:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+        #statusButton {
+            text-align: center;
+            border: 2px solid #45a049;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            color: #45a049;
+            background-color: white;
+            padding: 5px;
+            margin-left: 50%;
+            margin-top: 8px;
+        }
+        #statusButton:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+        .detModalButton{
+            text-align: center;
+            border:1px solid #45a049;
+            transition: all 0.3s ease;
+            background-color:White;
+            color:#45a049;
+            border-radius: 3px;
+        }
+        .detModalButton:hover{
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <button id="toggleMenu" type="button" class="btn btn-primary">
+        <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Drawer Menu -->
+    <div id="drawer" class="drawer close">
+        <div class="menu-item-home" onclick="navigateTo('/home')"><i class="fas fa-home"></i> Home</div>
+        <div class="menu-item" onclick="navigateTo('/grequest')"><i class="fas fa-laptop"></i> Goods Request </div>
+        <div class="menu-item" onclick="navigateTo('/srequest')"><i class="fas fa-wrench"></i> Service Request </div>
+        <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
+        <div class="menu-item" onclick="navigateTo('/reqHistory')"><i class="fas fa-history"></i> Request History</div>
+        <br>
+        <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout</div>
+    </div>
+
+    <h2>Users</h2>
+    <form id="approvalForm" method="POST" action="/submitApproval">
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each requests}}
+                <tr class="request-row" data-id="{{this._id}}">
+                    <td>
+                        <input type="checkbox" class="approval-checkbox" id="checkbox-{{@index}}">
+                        <label for="checkbox-{{@index}}" class="approval-label">
+                            <i class="far fa-square"></i>
+                        </label>
+                    </td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.department}}</td>
+                    <td class="d-none email">{{this.email}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <button id="table-button" type="submit">Submit</button>
+    </form>
+        <button id="statusButton" class="btn btn-info" style="margin-top: 20px;">Users</button>
+
+    <!-- Modal to display users with status -->
+    <div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">Current Users</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="statusUserList">
+                        <!-- User list will be populated here by JavaScript -->
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="detModalButton" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal -->
+    <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="approvalModalLabel">User Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Name:</strong> <span id="modalName"></span></p>
+                    <p><strong>Department:</strong> <span id="modalDeptName"></span></p>
+                    <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                    <label for="role">Assign Role:</label>
+                    <select id="role" class="form-control">
+                        <option value="None">None</option>
+                        <Option value="Administrator">Administrator</Option> {{!--Administrator --}}
+                        <option value="BM Checker">BM Checker</option> {{!--Branch manager checking --}}
+                        <option value="Pro Checker">Pro Checker</option> {{!-- procurement checking --}}
+                        <option value="Marker">Marker</option> {{!--officer creating --}}
+                        <option value="DptM checker">DptM Checker</option> {{!--Deputy Manager checking --}}
+                        <option value="Fin Checker">Fin Checker</option> {{!-- Finance checking --}}
+                        <option value="Checker">Checker</option> {{!--MD checking --}}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="detModalButton" data-dismiss="modal">Close</button>
+                    <button type="button" class="detModalButton" id="acceptBtn">Accept</button>
+                    <button type="button" class="detModalButton" id="rejectBtn">Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linking Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Toggle drawer menu on button click
+            $('#toggleMenu').click(function(){
+                $('#drawer').toggleClass('open').toggleClass('close');
+                if ($(window).width() < 768) {
+                    $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+                } else {
+                    $('#mainContent').css('margin-left', $('#drawer').hasClass('open') ? '220px' : '0');
+                }
+            });
+
+            // Function to toggle drawer based on window size
+            function toggleDrawerOnResize() {
+                if ($(window).width() < 768) {
+                    $('#drawer').removeClass('open').addClass('close');
+                    $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
+                } else {
+                    $('#drawer').removeClass('close').addClass('open');
+                    $('#mainContent').css('margin-left', '220px');
+                }
+            }
+
+            // Initial check
+            toggleDrawerOnResize();
+
+            // Check on window resize
+            $(window).resize(function(){
+                toggleDrawerOnResize();
+            });
+
+            // Get all rows with class 'request-row'
+            const rows = document.querySelectorAll('.request-row');
+            let currentRow;
+
+            // Function to handle row click
+            function handleRowClick(event) {
+                // Get the row of the clicked cell
+                currentRow = this.closest('tr');
+                const name = currentRow.children[1].innerText;
+                const department = currentRow.children[2].innerText;
+                const email = currentRow.querySelector('.email').innerText;
+
+                // Fill modal with data
+                $('#modalName').text(name);
+                $('#modalDeptName').text(department);
+                $('#modalEmail').text(email);
+
+                // Show the modal
+                $('#approvalModal').modal('show');
+            }
+
+            // Add click event listeners to buttons
+            $('#acceptBtn').off('click').on('click', function() {
+                const role = $('#role').val();
+                if (role !== 'None') {
+                    // Add role to the row
+                    if (currentRow.children.length === 3) {
+                        const roleCell = document.createElement('td');
+                        roleCell.innerText = role;
+                        currentRow.appendChild(roleCell);
+                    } else {
+                        currentRow.children[3].innerText = role;
+                    }
+
+                    // Check the checkbox as correct
+                    const checkbox = currentRow.querySelector('.approval-checkbox');
+                    checkbox.checked = true;
+                    $(checkbox).next('label').addClass('correct').removeClass('wrong').html('<i class="fas fa-check-square"></i>');
+                    currentRow.classList.add('blurred');
+
+                    const userId = currentRow.getAttribute('data-id');
+                    updateUserRoleAndStatus(userId, role, 'approved');
+                } else {
+                    alert('Please assign a role before accepting.');
+                }
+
+                // Close the modal
+                $('#approvalModal').modal('hide');
+            });
+
+            $('#rejectBtn').off('click').on('click', function() {
+                // Check the checkbox as wrong
+                const checkbox = currentRow.querySelector('.approval-checkbox');
+                checkbox.checked = false;
+                $(checkbox).next('label').addClass('wrong').removeClass('correct').html('<i class="fas fa-times"></i>');
+                currentRow.classList.add('blurred');
+
+                const userId = currentRow.getAttribute('data-id');
+                updateUserRoleAndStatus(userId, 'None', 'rejected');
+
+                // Close the modal
+                $('#approvalModal').modal('hide');
+            });
+
+            // Function to update user role and status
+            function updateUserRoleAndStatus(userId, role, status) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/updateUserRoleAndStatus',
+                    data: JSON.stringify({ userId, role, status }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log('User role and status updated successfully');
+                    },
+                    error: function(error) {
+                        console.error('Failed to update user role and status:', error);
+                    }
+                });
+            }
+
+            // Loop through each row and add click event listener
+            rows.forEach(row => {
+                row.addEventListener('click', handleRowClick);
+            });
+
+            // Handle form submission
+            $('#approvalForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                const approvals = [];
+
+                rows.forEach((row, index) => {
+                    const name = row.children[1].innerText;
+                    const department = row.children[2].innerText;
+                    const email = row.querySelector('.email').innerText;
+                    const role = row.children.length > 3 ? row.children[3].innerText : 'None';
+                    const checkbox = row.querySelector('.approval-checkbox');
+                    const status = checkbox.checked ? 'approved' : 'rejected';
+
+                    if ($(checkbox).next('label').hasClass('correct') || $(checkbox).next('label').hasClass('wrong')) {
+                        approvals.push({
+                            _id: row.getAttribute('data-id'),
+                            name,
+                            department,
+                            email,
+                            role,
+                            status
+                        });
+                        row.remove();
+                    } else {
+                        // If not marked correct or wrong, update the user status to 'None'
+                        updateUserRoleAndStatus(row.getAttribute('data-id'), 'None', 'None');
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/submitApproval',
+                    data: JSON.stringify({ approvals }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        alert('Approval status submitted successfully');
+                    },
+                    error: function(error) {
+                        alert('Failed to submit approval status: ' + error.responseText);
+                    }
+                });
+
+                // Remove the approved or rejected requests from the collection
+                $.ajax({
+                    type: 'POST',
+                    url: '/removeUsers',
+                    data: JSON.stringify({ approvals }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        console.log('Approved/rejected requests removed successfully');
+                    },
+                    error: function(error) {
+                        console.log('Failed to remove approved/rejected requests: ' + error.responseText);
+                    }
+                });
+            });
+
+            // Handle status button click
+            $('#statusButton').click(function(){
+                // Fetch users with status from the backend
+                $.ajax({
+                    type: 'GET',
+                    url: '/usersWithStatus',
+                    success: function(users) {
+                        // Clear the previous list
+                        $('#statusUserList').empty();
+                        // Populate the modal with users
+                        users.forEach(user => {
+                            const listItem = `<li>${user.name} - ${user.role}</li>`;
+                            $('#statusUserList').append(listItem);
+                        });
+                        // Show the modal
+                        $('#statusModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error('Failed to fetch users with status:', error);
+                    }
+                });
+            });
+        });
+
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

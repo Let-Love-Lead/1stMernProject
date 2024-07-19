@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <!-- Linking Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Linking Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 10%;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul li {
+            list-style-type: none;
+        }
+
+        .item-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .item-button:hover {
+            background-color: #45a049;
+        }
+
+        .modal-footer .item-button + .item-button {
+            margin-left: 10px;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100%;
+            transition: left 0.3s ease;
+            padding: 20px;
+            z-index: 1000;
+            background-color: rgb(39, 67, 120);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .drawer.open {
+            left: 0;
+        }
+
+        .drawer.close {
+            left: -220px;
+        }
+
+        .menu-item {
+            margin-top: 10%;
+            margin-bottom: 5px;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-item-home {
+            margin-top: 25%;
+            margin-bottom: 10px;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item-home:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .menu-item-button {
+            margin-top: 130%;
+            color: green;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid green;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .menu-item-button:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .container-fluid {
+            flex: 1;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+            margin-left: 220px;
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+
+        #toggleMenu {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1100;
+        }
+
+        @media (max-width: 767px) {
+            .drawer {
+                width: 100%;
+                height: 100vh;
+                left: -100%;
+                position: fixed;
+            }
+
+            .drawer.open {
+                left: 0;
+            }
+
+            .container-fluid {
+                padding-top: 20px;
+                margin-left: 0;
+                transition: margin-left 0.3s ease;
+            }
+        }
+
+        .footer {
+            width: 100%;
+            position: relative;
+            margin-top: auto;
+        }
+
+        .footer-box {
+            background-color: #333;
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border: none;
+        }
+
+        .approval-checkbox {
+            display: none;
+        }
+
+        .approval-label {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .approval-label.correct {
+            color: green;
+        }
+
+        .approval-label.wrong {
+            color: red;
+        }
+
+        #table-button {
+            text-align: center;
+            border: 2px solid #45a049;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            color: #45a049;
+            background-color: white;
+            padding: 5px;
+            margin-left: 10%;
+            margin-top: 2%;
+        }
+
+        #table-button:hover {
+            cursor: pointer;
+            background-color: rgb(65, 97, 241);
+            border-color: rgb(65, 97, 241);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .blurred {
+            filter: blur(2px);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Button -->
+    <button id="toggleMenu" type="button" class="btn btn-primary">
+        <i class="fas fa-bars"></i> Menu
+    </button>
+
+    <!-- Drawer Menu -->
+    <div id="drawer" class="drawer close">
+        <div class="menu-item-home" onclick="navigateTo('/home')"><i class="fas fa-home"></i> Home</div>
+        <div class="menu-item" onclick="navigateTo('/grequest')"><i class="fas fa-laptop"></i> Goods Request </div>
+        <div class="menu-item" onclick="navigateTo('/srequest')"><i class="fas fa-wrench"></i> Service Request </div>
+        <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
+        <div class="menu-item" onclick="navigateTo('/reqHistory')"><i class="fas fa-history"></i> Request History</div>
+        <br>
+        <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout</div>
+    </div>
+
+    <h2>Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody id="userTable">
+            {{#each requests}}
+            <tr data-id="{{this._id}}" onclick="fetchUserDetails('{{this._id}}')">
+                <td>{{this.name}}</td>
+                <td>{{this.department}}</td>
+                <td>{{this.role}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <!-- User Details Modal -->
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">User Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="userForm">
+                        <input type="hidden" id="userId">
+                        <div class="form-group">
+                            <label for="userName">Name:</label>
+                            <input type="text" class="form-control" id="userName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userDept">Department:</label>
+                            <input type="text" class="form-control" id="userDept" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userEmail">Email:</label>
+                            <input type="email" class="form-control" id="userEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPassword">Password:</label>
+                            <input type="password" class="form-control" id="userPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userRole">Role:</label>
+                            <select id="userRole" class="form-control">
+                                <option value="None">None</option>
+                                <option value="Marker">Marker</option>
+                                <option value="Checker">Checker</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="item-button" id="updateUserBtn">Update</button>
+                    <button type="button" class="item-button" id="deleteUserBtn">Delete</button>
+                    <button type="button" class="item-button" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Linking Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Toggle drawer menu on button click
+            $('#toggleMenu').click(function(){
+                $('#drawer').toggleClass('open').toggleClass('close');
+                if ($(window).width() < 768) {
+                    $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+                } else {
+                    $('#mainContent').css('margin-left', $('#drawer').hasClass('open') ? '220px' : '0');
+                }
+            });
+
+            // Function to toggle drawer based on window size
+            function toggleDrawerOnResize() {
+                if ($(window).width() < 768) {
+                    $('#drawer').removeClass('open').addClass('close');
+                    $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
+                } else {
+                    $('#drawer').removeClass('close').addClass('open');
+                    $('#mainContent').css('margin-left', '220px');
+                }
+            }
+
+            // Initial check
+            toggleDrawerOnResize();
+
+            // Check on window resize
+            $(window).resize(function(){
+                toggleDrawerOnResize();
+            });
+        });
+
+        // Fetch user details and show in modal
+        function fetchUserDetails(userId) {
+            $.ajax({
+                type: 'GET',
+                url: `/users/${userId}`,
+                success: function(user) {
+                    $('#userId').val(user._id);
+                    $('#userName').val(user.name);
+                    $('#userDept').val(user.department);
+                    $('#userEmail').val(user.email);
+                    $('#userPassword').val(user.password);
+                    $('#userRole').val(user.role);
+                    $('#userModal').modal('show');
+                },
+                error: function(error) {
+                    console.error('Failed to fetch user details:', error);
+                }
+            });
+        }
+
+        // Update user details
+        $('#updateUserBtn').on('click', function() {
+            const userId = $('#userId').val();
+            const updatedUser = {
+                name: $('#userName').val(),
+                department: $('#userDept').val(),
+                email: $('#userEmail').val(),
+                password: $('#userPassword').val(),
+                role: $('#userRole').val()
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: `/users/${userId}`,
+                data: JSON.stringify(updatedUser),
+                contentType: 'application/json',
+                success: function(response) {
+                    alert('User updated successfully');
+                    $('#userModal').modal('hide');
+                    location.reload(); // Reload the page to reflect changes
+                },
+                error: function(error) {
+                    alert('Failed to update user:', error.responseText);
+                }
+            });
+        });
+
+        // Delete user
+        $('#deleteUserBtn').on('click', function() {
+            const userId = $('#userId').val();
+            $.ajax({
+                type: 'DELETE',
+                url: `/users/${userId}`,
+                success: function(response) {
+                    alert('User deleted successfully');
+                    $('#userModal').modal('hide');
+                    location.reload(); // Reload the page to reflect changes
+                },
+                error: function(error) {
+                    alert('Failed to delete user:', error.responseText);
+                }
+            });
+        });
+
+        function navigateTo(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

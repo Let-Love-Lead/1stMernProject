@@ -20,7 +20,7 @@
             text-align: center;
             margin-bottom: 20px;
         }
-
+  
         table {
             width: 80%;
             border-collapse: collapse;
@@ -71,24 +71,26 @@
             margin-left: 10px;
         }
 
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 220px;
-            height: 100%;
-            transition: left 0.3s ease;
-            padding: 20px;
-            z-index: 1000;
-        }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      transition: left 0.3s ease;
+      padding: 20px;
+      z-index: 1000;
+      background-color:rgb(39,67,120);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        .drawer.open {
-            left: 0;
-        }
+    .drawer.open {
+      left: 0;
+    }
 
-        .drawer.close {
-            left: -220px;
-        }
+    .drawer.close {
+      left: -220px;
+    }
 
         .menu-item {
             margin-top: 10%;
@@ -129,7 +131,7 @@
         }
 
         .menu-item-button {
-            margin-top: 140%;
+            margin-top: 130%;
             color: green;
             padding: 10px;
             text-align: center;
@@ -146,42 +148,41 @@
             transform: scale(1.1);
         }
 
-        .container-fluid {
-            flex: 1;
-            padding-top: 20px;
-            transition: all 0.3s ease;
-            width: calc(100% - 220px);
-        }
+    .container-fluid {
+      flex: 1;
+      padding-top: 20px;
+      transition: all 0.3s ease;
+      margin-left: 220px;
+    }
 
         .row {
             margin-bottom: 20px;
         }
 
-        #toggleMenu {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 1100;
-        }
+  #toggleMenu {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+  @media (max-width: 767px) {
+    .drawer {
+      width: 100%;
+      height: 100vh;
+      left: -100%;
+      position: fixed;
+    }
 
-        @media (max-width: 767px) {
-            .drawer {
-                width: 100%;
-                height: 100vh;
-                left: -100%;
-                position: fixed;
-            }
+    .drawer.open {
+      left: 0;
+    }
 
-            .drawer.open {
-                left: 0;
-            }
-
-            .container-fluid {
-                padding-top: 20px;
-                margin-left: 0;
-                transition: margin-left 0.3s ease;
-            }
-        }
+      .container-fluid {
+        padding-top: 20px;
+        margin-left: 0;
+        transition: margin-left 0.3s ease;
+      }
+  }
 
         .footer {
             width: 100%;
@@ -253,206 +254,213 @@
     </div>
 
     <h2>Service Requests</h2>
-    <form id="approvalForm" method="POST" action="/submitApproval">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Department Name</th>
-                    <th>Officer Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each requests}}
-                <tr>
-                    <td>
-                        <input type="checkbox" class="approval-checkbox" id="checkbox-{{@index}}">
-                        <label for="checkbox-{{@index}}" class="approval-label">
-                            <i class="far fa-square"></i>
-                        </label>
-                    </td>
-                    <td>{{this.deptName}}</td>
-                    <td>{{this.officerName}}</td>
-                    <td class="d-none date">{{this.date}}</td>
-                    <td class="d-none itemsToProcure">
-                        <ul>
-                            {{this.itemsToProcure}}
-                        </ul>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-        <button id="table-button" type="submit">Submit</button>
-    </form>
+<form id="approvalForm" method="POST" action="/submitApproval">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Department Name</th>
+                <th>Officer Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each requests}}
+            <tr>
+                <td>
+                    <input type="checkbox" class="approval-checkbox" id="checkbox-{{@index}}">
+                    <label for="checkbox-{{@index}}" class="approval-label">
+                        <i class="far fa-square"></i>
+                    </label>
+                </td>
+                <td>{{this.deptName}}</td>
+                <td>{{this.officerName}}</td>
+                <td class="d-none date">{{this.date}}</td>
+                <td class="d-none itemsToProcure">
+                        {{this.itemsToProcure}}
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <button id="table-button" type="submit">Submit</button>
+</form>
 
-    <!-- Modal -->
-    <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="approvalModalLabel">Approval</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Department Name:</strong> <span id="modalDeptName"></span></p>
-                    <p><strong>Officer Name:</strong> <span id="modalOfficerName"></span></p>
-                    <p><strong>Date:</strong> <span id="modalDate"></span></p>
-                    <p><strong>Items to Procure:</strong></p>
-                    <ul id="modalItemsToProcure"></ul>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="item-button" data-dismiss="modal">Close</button>
-                    <button type="button" class="item-button" id="acceptBtn">Accept</button>
-                    <button type="button" class="item-button" id="rejectBtn">Reject</button>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="approvalModalLabel">Approval</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Department Name:</strong> <span id="modalDeptName"></span></p>
+                <p><strong>Officer Name:</strong> <span id="modalOfficerName"></span></p>
+                <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                <p><strong>Items to Procure:</strong></p>
+                <ul id="modalItemsToProcure"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="item-button" data-dismiss="modal">Close</button>
+                <button type="button" class="item-button" id="acceptBtn">Accept</button>
+                <button type="button" class="item-button" id="rejectBtn">Reject</button>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- Linking Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Toggle drawer menu on button click
-            $('#toggleMenu').click(function() {
-                $('#drawer').toggleClass('open').toggleClass('close');
-                $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
-            });
+ $(document).ready(function(){
+      // Toggle drawer menu on button click
+      $('#toggleMenu').click(function(){
+        $('#drawer').toggleClass('open').toggleClass('close');
+        if ($(window).width() < 768) {
+          $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        } else {
+          $('#mainContent').css('margin-left', $('#drawer').hasClass('open') ? '220px' : '0');
+        }
+      });
 
-            // Function to toggle drawer based on window size
-            function toggleDrawerOnResize() {
-                if ($(window).width() < 768) {
-                    $('#drawer').removeClass('open').addClass('close');
-                    $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
-                } else {
-                    $('#drawer').removeClass('close').addClass('open');
-                }
-            }
+      // Function to toggle drawer based on window size
+      function toggleDrawerOnResize() {
+        if ($(window).width() < 768) {
+          $('#drawer').removeClass('open').addClass('close');
+          $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
+        } else {
+          $('#drawer').removeClass('close').addClass('open');
+          $('#mainContent').css('margin-left', '220px');
+        }
+      }
 
-            // Initial check
-            toggleDrawerOnResize();
+      // Initial check
+      toggleDrawerOnResize();
 
-            // Check on window resize
-            $(window).resize(function() {
-                toggleDrawerOnResize();
-            });
+      // Check on window resize
+      $(window).resize(function(){
+        toggleDrawerOnResize();
+      });
 
-            // Get all checkboxes with class 'approval-checkbox'
-            const checkboxes = document.querySelectorAll('.approval-checkbox');
+    // Get all checkboxes with class 'approval-checkbox'
+    const checkboxes = document.querySelectorAll('.approval-checkbox');
 
-            // Function to handle checkbox click
-            function handleCheckboxClick(event) {
-                // Store the clicked checkbox
-                const clickedCheckbox = this;
+    // Function to handle checkbox click
+    function handleCheckboxClick(event) {
+        // Store the clicked checkbox
+        const clickedCheckbox = this;
 
-                // Prevent checkbox from being checked
-                event.preventDefault();
+        // Prevent checkbox from being checked
+        event.preventDefault();
 
-                // Get the row of the clicked checkbox
-                const row = clickedCheckbox.closest('tr');
-                const deptName = row.children[1].innerText;
-                const officerName = row.children[2].innerText;
-                const date = row.querySelector('.date').innerText;
-                const itemsToProcure = row.querySelector('.itemsToProcure').innerHTML;
+        // Get the row of the clicked checkbox
+        const row = this.closest('tr');
+        const deptName = row.children[1].innerText;
+        const officerName = row.children[2].innerText;
+        const date = row.querySelector('.date').innerText;
+        const itemsToProcure = row.querySelector('.itemsToProcure').innerHTML;
 
-                // Fill modal with data
-                $('#modalDeptName').text(deptName);
-                $('#modalOfficerName').text(officerName);
-                $('#modalDate').text(date);
-                $('#modalItemsToProcure').html(itemsToProcure);
+        // Fill modal with data
+        $('#modalDeptName').text(deptName);
+        $('#modalOfficerName').text(officerName);
+        $('#modalDate').text(date);
+        $('#modalItemsToProcure').html(itemsToProcure);
 
-                // Show the modal
-                $('#approvalModal').modal('show');
+        // Show the modal
+        $('#approvalModal').modal('show');
 
-                // Add click event listeners to buttons
-                $('#acceptBtn').off('click').on('click', function() {
-                    // Check the checkbox as correct
-                    clickedCheckbox.checked = true;
-                    $(clickedCheckbox).next('label').addClass('correct').removeClass('wrong').html('<i class="fas fa-check-square"></i>');
+        // Add click event listeners to buttons
+        $('#acceptBtn').off('click').on('click', function() {
+            // Check the checkbox as correct
+            clickedCheckbox.checked = true;
+            $(clickedCheckbox).next('label').addClass('correct').removeClass('wrong').html('<i class="fas fa-check-square"></i>');
 
-                    // Close the modal
-                    $('#approvalModal').modal('hide');
-                });
-
-                $('#rejectBtn').off('click').on('click', function() {
-                    // Check the checkbox as wrong
-                    clickedCheckbox.checked = false;
-                    $(clickedCheckbox).next('label').addClass('wrong').removeClass('correct').html('<i class="fas fa-times"></i>');
-
-                    // Close the modal
-                    $('#approvalModal').modal('hide');
-                });
-            }
-
-            // Loop through each checkbox and add click event listener
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('click', handleCheckboxClick);
-            });
-
-            // Handle form submission
-            $('#approvalForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
-
-                const approvals = [];
-
-                checkboxes.forEach((checkbox, index) => {
-                    const row = checkbox.closest('tr');
-                    const deptName = row.children[1].innerText;
-                    const officerName = row.children[2].innerText;
-                    const date = row.querySelector('.date').innerText;
-                    const status = checkbox.checked ? 'approved' : 'rejected';
-
-                    if (checkbox.checked || $(checkbox).next('label').hasClass('wrong')) {
-                        approvals.push({
-                            deptName,
-                            officerName,
-                            date,
-                            status,
-                            requestType: 'Service Request'
-                        });
-
-                        // Remove the row from the table
-                        row.remove();
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/submitApproval',
-                    data: JSON.stringify({ approvals }),
-                    contentType: 'application/json',
-                    success: function(response) {
-                        alert('Approval status submitted successfully');
-                    },
-                    error: function(error) {
-                        alert('Failed to submit approval status: ' + error.responseText);
-                    }
-                });
-
-                // Remove the approved or rejected requests from the collection
-                $.ajax({
-                    type: 'POST',
-                    url: '/removeServiceRequest',
-                    data: JSON.stringify({ approvals }),
-                    contentType: 'application/json',
-                    success: function(response) {
-                        console.log('Approved/rejected requests removed successfully');
-                    },
-                    error: function(error) {
-                        console.log('Failed to remove approved/rejected requests: ' + error.responseText);
-                    }
-                });
-            });
+            // Close the modal
+            $('#approvalModal').modal('hide');
         });
 
-        function navigateTo(url) {
-            window.location.href = url;
-        }
+        $('#rejectBtn').off('click').on('click', function() {
+            // Check the checkbox as wrong
+            clickedCheckbox.checked = false;
+            $(clickedCheckbox).next('label').addClass('wrong').removeClass('correct').html('<i class="fas fa-times"></i>');
+
+            // Close the modal
+            $('#approvalModal').modal('hide');
+        });
+    }
+
+    // Loop through each checkbox and add click event listener
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', handleCheckboxClick);
+    });
+
+    // Handle form submission
+    $('#approvalForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const approvals = [];
+
+        checkboxes.forEach((checkbox, index) => {
+            const row = checkbox.closest('tr');
+            const deptName = row.children[1].innerText;
+            const officerName = row.children[2].innerText;
+            const date = row.querySelector('.date').innerText;
+            const itemsToProcure = row.querySelector('.itemsToProcure').innerHTML;
+            const status = checkbox.checked ? 'approved' : 'rejected';
+
+            if (checkbox.checked || $(checkbox).next('label').hasClass('wrong')) {
+                approvals.push({
+                    deptName,
+                    officerName,
+                    date,
+                    itemsToProcure,
+                    status,
+                    requestType: 'Service Request'
+                });
+
+                // Remove the row from the table
+                row.remove();
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/submitApproval',
+            data: JSON.stringify({ approvals }),
+            contentType: 'application/json',
+            success: function(response) {
+                alert('Approval status submitted successfully');
+            },
+            error: function(error) {
+                alert('Failed to submit approval status: ' + error.responseText);
+            }
+        });
+
+        // Remove the approved or rejected requests from the collection
+        $.ajax({
+            type: 'POST',
+            url: '/removeServiceRequest',
+            data: JSON.stringify({ approvals }),
+            contentType: 'application/json',
+            success: function(response) {
+                console.log('Approved/rejected requests removed successfully');
+            },
+            error: function(error) {
+                console.log('Failed to remove approved/rejected requests: ' + error.responseText);
+            }
+        });
+    });
+});
+
+function navigateTo(url) {
+    window.location.href = url;
+}
+
     </script>
 </body>
 </html>

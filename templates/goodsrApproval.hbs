@@ -71,24 +71,25 @@
             margin-left: 10px;
         }
 
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 220px;
-            height: 100%;
-            transition: left 0.3s ease;
-            padding: 20px;
-            z-index: 1000;
-        }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      padding: 20px;
+      z-index: 1000;
+      background-color:rgb(39,67,120);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-        .drawer.open {
-            left: 0;
-        }
+    .drawer.open {
+      left: 0;
+    }
 
-        .drawer.close {
-            left: -220px;
-        }
+    .drawer.close {
+      left: -220px;
+    }
 
         .menu-item {
             margin-top: 10%;
@@ -98,7 +99,6 @@
             text-align: center;
             border: 2px solid green;
             border-radius: 5px;
-            transition: all 0.3s ease;
         }
 
         .menu-item:hover {
@@ -117,7 +117,6 @@
             text-align: center;
             border: 2px solid green;
             border-radius: 5px;
-            transition: all 0.3s ease;
         }
 
         .menu-item-home:hover {
@@ -129,13 +128,12 @@
         }
 
         .menu-item-button {
-            margin-top: 140%;
+            margin-top: 120%;
             color: green;
             padding: 10px;
             text-align: center;
             border: 2px solid green;
             border-radius: 5px;
-            transition: all 0.3s ease;
         }
 
         .menu-item-button:hover {
@@ -146,42 +144,41 @@
             transform: scale(1.1);
         }
 
-        .container-fluid {
-            flex: 1;
-            padding-top: 20px;
-            transition: all 0.3s ease;
-            width: calc(100% - 220px);
-        }
+
+    .container-fluid {
+      flex: 1;
+      padding-top: 20px;
+      transition: all 0.3s ease;
+      margin-left: 220px;
+    }
 
         .row {
             margin-bottom: 20px;
         }
 
-        #toggleMenu {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 1100;
-        }
+  #toggleMenu {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+  }
+  @media (max-width: 767px) {
+    .drawer {
+      width: 100%;
+      height: 100vh;
+      left: -100%;
+      position: fixed;
+    }
 
-        @media (max-width: 767px) {
-            .drawer {
-                width: 100%;
-                height: 100vh;
-                left: -100%;
-                position: fixed;
-            }
+    .drawer.open {
+      left: 0;
+    }
 
-            .drawer.open {
-                left: 0;
-            }
-
-            .container-fluid {
-                padding-top: 20px;
-                margin-left: 0;
-                transition: margin-left 0.3s ease;
-            }
-        }
+      .container-fluid {
+        padding-top: 20px;
+        margin-left: 0;  
+      }
+  }
 
         .footer {
             width: 100%;
@@ -275,11 +272,9 @@
                     <td>{{this.officerName}}</td>
                     <td class="d-none date">{{this.date}}</td>
                     <td class="d-none itemsToProcure">
-                        <ul>
                             {{#each this.itemsToProcure}}
-                            <li>{{this.item}} (Quantity: {{this.quantity}})</li>
+                            {{this.item}} (Quantity: {{this.quantity}})
                             {{/each}}
-                        </ul>
                     </td>
                 </tr>
                 {{/each}}
@@ -319,30 +314,36 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Toggle drawer menu on button click
-            $('#toggleMenu').click(function() {
-                $('#drawer').toggleClass('open').toggleClass('close');
-                $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
-            });
+   $(document).ready(function(){
+      // Toggle drawer menu on button click
+      $('#toggleMenu').click(function(){
+        $('#drawer').toggleClass('open').toggleClass('close');
+        if ($(window).width() < 768) {
+          $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        } else {
+          $('#mainContent').css('margin-left', $('#drawer').hasClass('open') ? '220px' : '0');
+        }
+      });
 
-            // Function to toggle drawer based on window size
-            function toggleDrawerOnResize() {
-                if ($(window).width() < 768) {
-                    $('#drawer').removeClass('open').addClass('close');
-                    $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
-                } else {
-                    $('#drawer').removeClass('close').addClass('open');
-                }
-            }
+      // Function to toggle drawer based on window size
+      function toggleDrawerOnResize() {
+        if ($(window).width() < 768) {
+          $('#drawer').removeClass('open').addClass('close');
+          $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
+        } else {
+          $('#drawer').removeClass('close').addClass('open');
+          $('#mainContent').css('margin-left', '220px');
+        }
+      }
 
-            // Initial check
-            toggleDrawerOnResize();
+      // Initial check
+      toggleDrawerOnResize();
 
-            // Check on window resize
-            $(window).resize(function() {
-                toggleDrawerOnResize();
-            });
+      // Check on window resize
+      $(window).resize(function(){
+        toggleDrawerOnResize();
+      });
+
 
             // Get all checkboxes with class 'approval-checkbox'
             const checkboxes = document.querySelectorAll('.approval-checkbox');
@@ -407,6 +408,7 @@
                     const deptName = row.children[1].innerText;
                     const officerName = row.children[2].innerText;
                     const date = row.querySelector('.date').innerText;
+                    const itemsToProcure = row.querySelector('.itemsToProcure').innerHTML;
                     const status = checkbox.checked ? 'approved' : 'rejected';
 
                     if (checkbox.checked || $(checkbox).next('label').hasClass('wrong')) {
@@ -414,6 +416,7 @@
                             deptName,
                             officerName,
                             date,
+                            itemsToProcure, // Add this line to include itemsToProcure
                             status,
                             requestType: 'Goods Request'
                         });

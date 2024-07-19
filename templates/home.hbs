@@ -9,170 +9,183 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Linking Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<style>
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background-color:#ccc;
-  }
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color:white;
+    }
 
-  body {
-    display: flex;
-    flex-direction: column;
-  }
+    body {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .box {
-    margin-top: 10%;
-    margin-bottom: 5px;
-    color: green;
-    padding: 25px; 
-    text-align: center;
-    border: 2px solid green;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  }
+    .box {
+      margin-top: 10%;
+      margin-bottom: 5px;
+      color: green;
+      padding: 25px; 
+      text-align: center;
+      border: 2px solid green;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
 
-  .box:hover {
-    cursor: pointer;
-    background-color: rgb(65, 97, 241);
-    border-color: rgb(65, 97, 241);
-    color: white;
-    transform: scale(1.1);
-  }
+    .box:hover {
+      cursor: pointer;
+      background-color: rgb(65, 97, 241);
+      border-color: rgb(65, 97, 241);
+      color: white;
+      transform: scale(1.1);
+    }
 
-  .drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 220px;
-    height: 100%;
-    transition: left 0.3s ease;
-    padding: 20px;
-    z-index: 1000;
-  }
-
-  .drawer.open {
-    left: 0;
-  }
-
-  .drawer.close {
-    left: -220px;
-  }
-
-  .menu-item {
-    margin-top: 10%;
-    margin-bottom: 5px;
-    color: green;
-    padding: 10px; 
-    text-align: center; 
-    border: 2px solid green; 
-    border-radius: 5px; 
-    transition: all 0.3s ease;
-  }
-
-  .menu-item:hover {
-    cursor: pointer;
-    background-color: rgb(65, 97, 241);
-    border-color: rgb(65, 97, 241);
-    color: white;
-    transform: scale(1.1);
-  }
-
-  .menu-item-home {
-    margin-top: 25%;
-    margin-bottom: 10px;
-    color: green;
-    padding: 10px;
-    text-align: center;
-    border: 2px solid green;
-    border-radius: 5px;
-    transition: all 0.3s ease; 
-  }
-
-  .menu-item-home:hover {
-    cursor: pointer;
-    background-color: rgb(65, 97, 241);
-    border-color: rgb(65, 97, 241);
-    color: white;
-    transform: scale(1.1);
-  }
-
-  .menu-item-button {
-    margin-top: 110%;
-    color: green;
-    padding: 10px;
-    text-align: center;
-    border: 2px solid green;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-
-  .menu-item-button:hover {
-    cursor: pointer;
-    background-color: rgb(65, 97, 241);
-    border-color: rgb(65, 97, 241);
-    color: white;
-    transform: scale(1.1);
-  }
-
-  .container-fluid {
-    flex: 1;
-    padding-top: 20px;
-    transition: all 0.3s ease; 
-    width: calc(100% - 220px);
-  }
-
-  .row {
-    margin-bottom: 20px;
-  }
-
-  #toggleMenu {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 1100;
-  }
-
-  @media (max-width: 767px) {
     .drawer {
-      width: 100%;
-      height: 100vh;
-      left: -100%;
       position: fixed;
+      top: 0;
+      left: 0;
+      width: 240px;
+      height: 100%;
+      padding: 20px;
+      z-index: 1000;
+      background-color:rgb(39, 67, 120);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     .drawer.open {
       left: 0;
     }
 
-    .container-fluid {
-      padding-top: 20px;
-      margin-left: 0;
-      transition: margin-left 0.3s ease;
+    .drawer.close {
+      left: -240px;
     }
-  }
 
-  h2 {
-    text-align: center;
-    margin-top: 2%;
-  }
+    .menu-item {
+      margin-top: 10%;
+      margin-bottom: 5px;
+      color: green;
+      padding: 10px; 
+      text-align: center; 
+      border: 2px solid green; 
+      border-radius: 5px;
+    }
 
-  .footer {
-    width: 100%;
-    position: relative;
-    margin-top: auto;
-  }
+    .menu-item:hover {
+      cursor: pointer;
+      background-color: rgb(65, 97, 241);
+      border-color: rgb(65, 97, 241);
+      color: white;
+      transform: scale(1.1);
+    }
 
-  .footer-box {
-    background-color: #333;
-    color: white;
-    padding: 25px; 
-    text-align: center;
-    border: none;
-  }
-</style>
+    .menu-item-home {
+      margin-top: 25%;
+      margin-bottom: 10px;
+      color: green;
+      padding: 10px;
+      text-align: center;
+      border: 2px solid green;
+      border-radius: 5px;
+    }
+
+    .menu-item-home:hover {
+      cursor: pointer;
+      background-color: rgb(65, 97, 241);
+      border-color: rgb(65, 97, 241);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .menu-item-button {
+      margin-top: 110%;
+      color: green;
+      padding: 10px;
+      text-align: center;
+      border: 2px solid green;
+      border-radius: 5px; 
+    }
+
+    .menu-item-button:hover {
+      cursor: pointer;
+      background-color: rgb(65, 97, 241);
+      border-color: rgb(65, 97, 241);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .container-fluid {
+      flex: 1;
+      padding-top: 20px;
+      transition: all 0.3s ease;
+      margin-left: 240px;
+    }
+
+    .container-fluid.menu-open {
+      margin-left: 240px;
+      width: calc(100% - 240px);
+    }
+
+    .container-fluid.menu-closed {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .row {
+      margin-bottom: 20px;
+    }
+
+    #toggleMenu {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 1100;
+    }
+
+    @media (max-width: 767px) {
+      .drawer {
+        width: 100%;
+        height: 100vh;
+        left: -100%;
+        position: fixed;
+      }
+
+      .drawer.open {
+        left: 0;
+      }
+
+      .container-fluid {
+        padding-top: 20px;
+        margin-left: 0;
+      }
+
+      .container-fluid.menu-open {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+
+   h2 {
+      text-align: center;
+      margin-top: 2%;
+      margin-left:15px;
+    }
+
+    .footer {
+      width: 100%;
+      position: relative;
+      margin-top: auto;
+    }
+
+    .footer-box {
+      background-color: #333;
+      color: white;
+      padding: 25px; 
+      text-align: center;
+      border: none;
+    }
+  </style>
 </head>
 <body>
   <!-- Menu Button -->
@@ -188,13 +201,11 @@
     <div class="menu-item" onclick="navigateTo('/approvals')"><i class="fas fa-check"></i> Approvals </div>
     <div class="menu-item" onclick="navigateTo('/reqHistory')"><i class="fas fa-history"></i> Request History</div>
     <br>
-    <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout
-    </div>
+    <div class="menu-item-button" onclick="navigateTo('/')"><i class="fas fa-outdent"></i> Logout</div>
   </div>
 
   <!-- Main Content -->
-  <h2>Welcome To ASL Procurement</h2>
-  <div class="container-fluid" id="mainContent">
+  <div class="container-fluid menu-closed" id="mainContent">
     <div class="row justify-content-center">
       <div class="col-md-6 col-lg-4">
         <div class="box">
@@ -241,16 +252,25 @@
       // Toggle drawer menu on button click
       $('#toggleMenu').click(function(){
         $('#drawer').toggleClass('open').toggleClass('close');
-        $('#mainContent').toggleClass('menu-open'); // Toggle class for main content
+        $('#mainContent').toggleClass('menu-open menu-closed');
+      });
+
+      // Close drawer menu on menu item click
+      $('.menu-item, .menu-item-home, .menu-item-button').click(function(){
+        if ($(window).width() < 768) {
+          $('#drawer').removeClass('open').addClass('close');
+          $('#mainContent').removeClass('menu-open').addClass('menu-closed');
+        }
       });
 
       // Function to toggle drawer based on window size
       function toggleDrawerOnResize() {
         if ($(window).width() < 768) {
           $('#drawer').removeClass('open').addClass('close');
-          $('#mainContent').removeClass('menu-open'); // Ensure main content is closed on small screens
+          $('#mainContent').removeClass('menu-open').addClass('menu-closed'); // Ensure main content is closed on small screens
         } else {
           $('#drawer').removeClass('close').addClass('open');
+          $('#mainContent').removeClass('menu-closed').addClass('menu-open');
         }
       }
 
